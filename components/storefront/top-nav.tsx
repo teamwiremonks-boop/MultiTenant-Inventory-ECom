@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { LayoutDashboard, LogIn, Search, ShoppingCart, Store, User } from "lucide-react";
+import { LayoutDashboard, Search, ShoppingCart, Store, User } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -33,7 +33,7 @@ export function StorefrontTopNav({
           <span className="flex size-9 items-center justify-center rounded-md bg-primary text-primary-foreground">
             <Store data-icon="inline-start" />
           </span>
-          WireMonks Market
+          Market Place
         </Link>
 
         <div className="relative min-w-0 flex-1 md:max-w-xl">
@@ -85,9 +85,9 @@ export function StorefrontTopNav({
             </>
           ) : (
             <>
-              <Button asChild aria-label="Login" size="icon" variant="ghost">
+              <Button asChild aria-label="Login" variant="outline">
                 <Link href="/auth/login">
-                  <LogIn />
+                  Sign In
                 </Link>
               </Button>
               <Button asChild>

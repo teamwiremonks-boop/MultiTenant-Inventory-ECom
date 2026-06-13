@@ -67,7 +67,7 @@ export function StorefrontHome({
               </div>
             </div>
 
-            <div className="grid gap-3 rounded-lg border bg-card p-3 shadow-xs">
+            <div className="grid gap-3 rounded-lg bg-card p-3 shadow-xs">
               <div className="aspect-5/3 rounded-md bg-muted p-4">
                 <div className="flex h-full flex-col justify-between rounded-md border bg-background p-4">
                   <div className="flex items-center justify-between">
