@@ -52,7 +52,7 @@ export function ProductOptionSelector({
                   key={option.value}
                   onClick={() => onChange(group.name, option.value)}
                   type="button"
-                  variant={selected ? "default" : "outline-solid"}
+                  variant={selected ? "default" : "outline"}
                 >
                   {option.value}
                 </Button>

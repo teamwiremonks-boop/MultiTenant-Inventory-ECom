@@ -103,7 +103,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             <p className="text-2xl font-semibold">
               ₹{(selectedVariant?.price ?? product.basePrice).toLocaleString("en-IN")}
             </p>
-            <Badge className="w-fit" variant={selectedVariant?.available ? "secondary" : "outline-solid"}>
+            <Badge className="w-fit" variant={selectedVariant?.available ? "secondary" : "outline"}>
               {selectedVariant?.available ? "In stock" : "Unavailable"}
             </Badge>
           </div>

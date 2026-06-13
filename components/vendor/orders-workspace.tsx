@@ -257,7 +257,7 @@ function OrderQueueRow({
         </div>
       </TableCell>
       <TableCell>
-        <Badge variant={summary.state === "ready" ? "secondary" : "outline-solid"}>
+        <Badge variant={summary.state === "ready" ? "secondary" : "outline"}>
           {summary.fulfillmentLabel}
         </Badge>
         <div className="mt-1 text-xs text-muted-foreground">
@@ -578,7 +578,7 @@ function FulfillmentItemEditor({
             SKU {item.sku} | {formatVariantAttributes(item.variantAttributes)}
           </p>
         </div>
-        <Badge variant={allocated === item.quantity ? "secondary" : "outline-solid"}>
+        <Badge variant={allocated === item.quantity ? "secondary" : "outline"}>
           {allocated}/{item.quantity}
         </Badge>
       </div>

@@ -95,7 +95,7 @@ export function ProductCard({ product }: ProductCardProps) {
               {product.name}
             </Link>
           </div>
-          <Badge variant={product.available ? "secondary" : "outline-solid"}>
+          <Badge variant={product.available ? "secondary" : "outline"}>
             {product.available ? "In stock" : "Sold out"}
           </Badge>
         </div>
