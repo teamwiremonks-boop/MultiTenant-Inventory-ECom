@@ -17,9 +17,14 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export function LoginForm({
+  nextPath = "/",
+  hasExplicitNext = false,
   className,
   ...props
-}: React.ComponentPropsWithoutRef<"div">) {
+}: React.ComponentPropsWithoutRef<"div"> & {
+  hasExplicitNext?: boolean;
+  nextPath?: string;
+}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -38,8 +43,17 @@ export function LoginForm({
         password,
       });
       if (error) throw error;
-      // Update this route to redirect to an authenticated route. The user already has an active session.
-      router.push("/protected");
+      if (hasExplicitNext) {
+        router.push(nextPath);
+        return;
+      }
+
+      const { data: vendorMembership } = await supabase
+        .from("vendor_members")
+        .select("vendor_id")
+        .limit(1);
+
+      router.push(vendorMembership && vendorMembership.length > 0 ? "/vendor/dashboard" : "/");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
@@ -96,7 +110,7 @@ export function LoginForm({
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
               <Link
-                href="/auth/sign-up"
+                href={`/auth/sign-up?next=${encodeURIComponent(nextPath)}`}
                 className="underline underline-offset-4"
               >
                 Sign up

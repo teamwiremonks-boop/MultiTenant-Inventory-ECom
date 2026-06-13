@@ -12,6 +12,8 @@
 
 # testing
 /coverage
+/playwright-report/
+/test-results/
 
 # next.js
 /.next/
@@ -22,17 +24,27 @@
 
 # misc
 .DS_Store
+Thumbs.db
+Desktop.ini
 *.pem
+.eslintcache
+/.swc/
+/.turbo/
 
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+*.log
 
-# env files (can opt-in for committing if needed)
-.env*.local
-.env
+# env files (keep the documented template in source control)
+.env*
+!.env.example
+
+# local agent and connector configuration
+/.codex/
+/.mcp.json
 
 # vercel
 .vercel

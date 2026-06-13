@@ -17,9 +17,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export function SignUpForm({
+  nextPath = "/protected",
   className,
   ...props
-}: React.ComponentPropsWithoutRef<"div">) {
+}: React.ComponentPropsWithoutRef<"div"> & { nextPath?: string }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
@@ -44,11 +45,11 @@ export function SignUpForm({
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/protected`,
+          emailRedirectTo: `${window.location.origin}${nextPath}`,
         },
       });
       if (error) throw error;
-      router.push("/auth/sign-up-success");
+      router.push(`/auth/sign-up-success?next=${encodeURIComponent(nextPath)}`);
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
@@ -108,7 +109,10 @@ export function SignUpForm({
             </div>
             <div className="mt-4 text-center text-sm">
               Already have an account?{" "}
-              <Link href="/auth/login" className="underline underline-offset-4">
+              <Link
+                href={`/auth/login?next=${encodeURIComponent(nextPath)}`}
+                className="underline underline-offset-4"
+              >
                 Login
               </Link>
             </div>
