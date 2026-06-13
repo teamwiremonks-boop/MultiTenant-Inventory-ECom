@@ -190,7 +190,7 @@ export function InventoryWorkspace() {
         <div className="max-w-xl space-y-2">
           <Label htmlFor="inventory-product">Product</Label>
           <select
-            className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
+            className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm shadow-xs disabled:cursor-not-allowed disabled:opacity-50"
             disabled={loadingProducts}
             id="inventory-product"
             onChange={(event) => setSelectedProductId(event.target.value)}

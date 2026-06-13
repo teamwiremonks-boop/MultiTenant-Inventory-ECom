@@ -27,7 +27,7 @@ export function StorefrontTopNav({
   const count = useCartStore((state) => cartItemCount(state.items));
 
   return (
-    <header className="sticky top-0 z-30 border-b bg-background/95 backdrop-blur">
+    <header className="sticky top-0 z-30 border-b bg-background/95 backdrop-blur-sm">
       <div className="mx-auto flex min-h-16 w-full max-w-7xl flex-col gap-3 px-4 py-3 md:flex-row md:items-center md:px-6">
         <Link className="flex items-center gap-2 font-semibold" href="/">
           <span className="flex size-9 items-center justify-center rounded-md bg-primary text-primary-foreground">

@@ -18,7 +18,7 @@ export function VendorShell({ children }: VendorShellProps) {
           <VendorSidebarNav />
         </Suspense>
         <main className="min-w-0 flex-1">
-          <header className="sticky top-0 z-10 border-b bg-background/95 px-4 py-3 backdrop-blur md:px-8">
+          <header className="sticky top-0 z-10 border-b bg-background/95 px-4 py-3 backdrop-blur-sm md:px-8">
             <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
               <div className="flex items-center justify-between gap-4">
               <Link className="font-semibold md:hidden" href="/vendor/dashboard">

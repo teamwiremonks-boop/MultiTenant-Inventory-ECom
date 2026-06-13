@@ -77,7 +77,7 @@ export function OrderStatusForm({
         <div className="space-y-2">
           <Label htmlFor="order-status">Status</Label>
           <select
-            className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm shadow-sm"
+            className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm shadow-xs"
             disabled={readOnly}
             id="order-status"
             {...form.register("status")}

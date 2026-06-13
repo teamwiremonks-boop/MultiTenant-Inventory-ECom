@@ -124,7 +124,7 @@ export function VendorSidebarNav({ items = vendorNav }: VendorSidebarNavProps) {
                 "w-full justify-start gap-3",
                 collapsed && "justify-center px-0",
                 active &&
-                  "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 hover:text-primary-foreground",
+                  "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 hover:text-primary-foreground",
               )}
               key={item.href}
               title={collapsed ? item.label : undefined}

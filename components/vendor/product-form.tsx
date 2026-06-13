@@ -209,7 +209,7 @@ export function ProductForm({
           <div className="space-y-2">
             <Label htmlFor="product-brand">Brand</Label>
             <select
-              className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
+              className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm shadow-xs disabled:cursor-not-allowed disabled:opacity-50"
               id="product-brand"
               disabled={readOnly}
               {...form.register("brandId")}
@@ -515,7 +515,7 @@ function RichTextEditor({
         </div>
         <div
           aria-label={label}
-          className="min-h-28 px-3 py-2 text-sm outline-none prose-p:m-0"
+          className="min-h-28 px-3 py-2 text-sm outline-hidden prose-p:m-0"
           contentEditable={!disabled}
           onInput={(event) => onChange(event.currentTarget.innerHTML)}
           ref={editorRef}

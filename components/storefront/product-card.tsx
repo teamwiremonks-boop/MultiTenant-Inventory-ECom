@@ -67,7 +67,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Card className="overflow-hidden">
-      <div className="relative aspect-[4/3] bg-muted">
+      <div className="relative aspect-4/3 bg-muted">
         {selectedVariant?.imageUrl || product.imageUrl ? (
           <Image
             alt={product.name}
@@ -95,7 +95,7 @@ export function ProductCard({ product }: ProductCardProps) {
               {product.name}
             </Link>
           </div>
-          <Badge variant={product.available ? "secondary" : "outline"}>
+          <Badge variant={product.available ? "secondary" : "outline-solid"}>
             {product.available ? "In stock" : "Sold out"}
           </Badge>
         </div>

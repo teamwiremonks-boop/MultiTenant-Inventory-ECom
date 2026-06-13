@@ -257,7 +257,7 @@ function OrderQueueRow({
         </div>
       </TableCell>
       <TableCell>
-        <Badge variant={summary.state === "ready" ? "secondary" : "outline"}>
+        <Badge variant={summary.state === "ready" ? "secondary" : "outline-solid"}>
           {summary.fulfillmentLabel}
         </Badge>
         <div className="mt-1 text-xs text-muted-foreground">
@@ -484,7 +484,7 @@ function DetailRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="grid gap-1 sm:grid-cols-[140px_1fr]">
       <span className="text-muted-foreground">{label}</span>
-      <span className="break-words sm:text-right">{value}</span>
+      <span className="wrap-break-word sm:text-right">{value}</span>
     </div>
   );
 }
@@ -578,7 +578,7 @@ function FulfillmentItemEditor({
             SKU {item.sku} | {formatVariantAttributes(item.variantAttributes)}
           </p>
         </div>
-        <Badge variant={allocated === item.quantity ? "secondary" : "outline"}>
+        <Badge variant={allocated === item.quantity ? "secondary" : "outline-solid"}>
           {allocated}/{item.quantity}
         </Badge>
       </div>
@@ -595,7 +595,7 @@ function FulfillmentItemEditor({
               key={`${row.storeId}-${index}`}
             >
               <select
-                className="h-9 rounded-md border border-input bg-background px-3 text-sm shadow-sm disabled:opacity-60"
+                className="h-9 rounded-md border border-input bg-background px-3 text-sm shadow-xs disabled:opacity-60"
                 disabled={readOnly}
                 onChange={(event) =>
                   updateRow(index, { storeId: event.target.value })
