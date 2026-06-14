@@ -1,27 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { LayoutDashboard, Search, ShoppingCart, Store, User } from "lucide-react";
+import { LayoutDashboard, ShoppingCart, Store, User } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { LogoutButton } from "@/components/logout-button";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { cartItemCount, useCartStore } from "@/lib/stores/cart-store";
 
 type StorefrontTopNavProps = {
   isAuthenticated?: boolean;
   isVendor?: boolean;
-  search: string;
-  onSearchChange: (value: string) => void;
   onCartOpen: () => void;
 };
 
 export function StorefrontTopNav({
   isAuthenticated = false,
   isVendor = false,
-  search,
-  onSearchChange,
   onCartOpen,
 }: StorefrontTopNavProps) {
   const count = useCartStore((state) => cartItemCount(state.items));
@@ -36,18 +32,10 @@ export function StorefrontTopNav({
           Market Place
         </Link>
 
-        <div className="relative min-w-0 flex-1 md:max-w-xl">
-          <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            aria-label="Search products"
-            className="pl-10"
-            onChange={(event) => onSearchChange(event.target.value)}
-            placeholder="Search products"
-            value={search}
-          />
-        </div>
+        <div className="min-w-0 flex-1" />
 
-        <nav className="flex items-center gap-2">
+        <nav className="flex w-full flex-wrap items-center gap-2 md:w-auto">
+          <ThemeToggle />
           <Button
             aria-label={`Open cart with ${count} items`}
             className="relative"

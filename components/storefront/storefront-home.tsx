@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import { CartPanel } from "@/components/storefront/cart-panel";
 import { ProductCard } from "@/components/storefront/product-card";
@@ -20,19 +20,6 @@ export function StorefrontHome({
   products,
 }: StorefrontHomeProps) {
   const [cartOpen, setCartOpen] = useState(false);
-  const [search, setSearch] = useState("");
-
-  const filteredProducts = useMemo(() => {
-    const query = search.trim().toLowerCase();
-    if (!query) return products;
-
-    return products.filter((product) =>
-      [product.name, product.brandName, product.description]
-        .join(" ")
-        .toLowerCase()
-        .includes(query),
-    );
-  }, [products, search]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -40,8 +27,6 @@ export function StorefrontHome({
         isAuthenticated={isAuthenticated}
         isVendor={isVendor}
         onCartOpen={() => setCartOpen(true)}
-        onSearchChange={setSearch}
-        search={search}
       />
       <main>
         <section className="border-b">
@@ -112,20 +97,20 @@ export function StorefrontHome({
               </p>
             </div>
             <p className="text-sm text-muted-foreground">
-              Showing {filteredProducts.length} of {products.length}
+              Showing {products.length} products
             </p>
           </div>
 
-          {filteredProducts.length === 0 ? (
+          {products.length === 0 ? (
             <div className="rounded-lg border bg-card p-10 text-center">
-              <p className="font-medium">No products found</p>
+              <p className="font-medium">No products available</p>
               <p className="text-sm text-muted-foreground">
-                Try another search term.
+                Check back when vendors publish their catalog.
               </p>
             </div>
           ) : (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {filteredProducts.map((product) => (
+              {products.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>

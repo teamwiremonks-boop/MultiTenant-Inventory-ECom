@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -9,9 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ProductOptionSelector } from "@/components/storefront/product-option-selector";
+import { ProductImageBento } from "@/components/storefront/product-image-bento";
+import { RichProductDescription } from "@/components/storefront/rich-product-description";
 import { useCartStore } from "@/lib/stores/cart-store";
 import {
   cartItemFromVariant,
+  effectiveProductImages,
   lowestPricedAvailableVariant,
   resolveVariantFromOptions,
   type StorefrontProductDetail,
@@ -46,8 +48,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const cartItem = selectedVariant
     ? cartItems.find((item) => item.variantId === selectedVariant.id)
     : undefined;
-  const imageUrl =
-    selectedVariant?.imageUrl || product.imageUrls[0] || "";
+  const imageUrls = effectiveProductImages(product.imageUrls, selectedVariant);
 
   const addSelectedVariant = () => {
     if (!selectedVariant) return;
@@ -62,34 +63,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
           <Button asChild className="w-fit" variant="ghost">
             <Link href="/">Back to products</Link>
           </Button>
-          <div className="relative aspect-square overflow-hidden rounded-lg border bg-muted">
-            {imageUrl ? (
-              <Image
-                alt={product.name}
-                className="object-cover"
-                fill
-                priority
-                sizes="(min-width: 768px) 50vw, 100vw"
-                src={imageUrl}
-              />
-            ) : (
-              <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
-                No image
-              </div>
-            )}
-          </div>
-          {product.imageUrls.length > 1 && (
-            <div className="grid grid-cols-5 gap-2">
-              {product.imageUrls.slice(0, 5).map((url) => (
-                <div
-                  className="relative aspect-square overflow-hidden rounded-md border bg-muted"
-                  key={url}
-                >
-                  <Image alt={product.name} className="object-cover" fill sizes="96px" src={url} />
-                </div>
-              ))}
-            </div>
-          )}
+          <ProductImageBento imageUrls={imageUrls} productName={product.name} />
         </section>
 
         <section className="flex flex-col gap-6">
@@ -109,7 +83,10 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
           </div>
 
           {product.description && (
-            <p className="leading-7 text-muted-foreground">{product.description}</p>
+            <RichProductDescription
+              className="text-base leading-7"
+              html={product.description}
+            />
           )}
 
           <Separator />

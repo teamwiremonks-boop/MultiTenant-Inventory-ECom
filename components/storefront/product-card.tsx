@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
@@ -9,9 +8,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { ProductOptionSelector } from "@/components/storefront/product-option-selector";
+import { ProductMediaCarousel } from "@/components/storefront/product-media-carousel";
+import { RichProductDescription } from "@/components/storefront/rich-product-description";
 import { useCartStore } from "@/lib/stores/cart-store";
 import {
   cartItemFromVariant,
+  effectiveProductImages,
   lowestPricedAvailableVariant,
   resolveVariantFromOptions,
   type StorefrontProductCard,
@@ -46,13 +48,14 @@ export function ProductCard({ product }: ProductCardProps) {
   const cartItem = selectedVariant
     ? items.find((item) => item.variantId === selectedVariant.id)
     : undefined;
+  const imageUrls = effectiveProductImages(product.imageUrls, selectedVariant);
 
   function addToCart() {
     setError(null);
 
     const item = selectedVariant
       ? cartItemFromVariant(
-          { ...product, imageUrls: product.imageUrl ? [product.imageUrl] : [] },
+          { ...product, imageUrls: product.imageUrls },
           selectedVariant,
         )
       : null;
@@ -67,21 +70,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Card className="overflow-hidden">
-      <div className="relative aspect-4/3 bg-muted">
-        {selectedVariant?.imageUrl || product.imageUrl ? (
-          <Image
-            alt={product.name}
-            className="object-cover transition duration-300 hover:scale-105"
-            fill
-            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-            src={selectedVariant?.imageUrl || product.imageUrl}
-          />
-        ) : (
-          <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
-            No image
-          </div>
-        )}
-      </div>
+      <ProductMediaCarousel imageUrls={imageUrls} productName={product.name} />
       <CardContent className="flex min-h-40 flex-col gap-3 p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
@@ -99,9 +88,13 @@ export function ProductCard({ product }: ProductCardProps) {
             {product.available ? "In stock" : "Sold out"}
           </Badge>
         </div>
-        <p className="line-clamp-2 text-sm text-muted-foreground">
-          {product.description || "Ready for checkout from verified vendors."}
-        </p>
+        {product.description ? (
+          <RichProductDescription compact html={product.description} />
+        ) : (
+          <p className="line-clamp-3 text-sm text-muted-foreground">
+            Ready for checkout from verified vendors.
+          </p>
+        )}
         <div className="mt-auto flex items-center justify-between">
           <p className="text-lg font-semibold">
             Rs. {(selectedVariant?.price ?? product.basePrice).toLocaleString("en-IN")}

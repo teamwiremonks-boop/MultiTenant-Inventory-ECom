@@ -5,6 +5,7 @@ export type StorefrontProductCard = {
   description: string;
   basePrice: number;
   imageUrl: string;
+  imageUrls: string[];
   available: boolean;
   variantCount: number;
   variants: StorefrontProductVariant[];
@@ -29,6 +30,7 @@ export type StorefrontProductVariant = {
   price: number;
   available: boolean;
   imageUrl: string;
+  imageUrls: string[];
 };
 
 export type StorefrontProductDetail = {
@@ -45,6 +47,15 @@ export type StorefrontProductDetail = {
 };
 
 export function publicProductToCard(product: Record<string, unknown>): StorefrontProductCard;
+export function effectiveProductImages(
+  productImages: unknown,
+  variant?: { imageUrls?: unknown; image_urls?: unknown; images?: unknown },
+): string[];
+export function sanitizeProductDescription(
+  html: unknown,
+  options?: { links?: boolean },
+): string;
+export function productBentoLayout(imageCount: unknown): number[][];
 export function firstAvailableVariant(product: Record<string, unknown>): Record<string, unknown> | undefined;
 export function lowestPricedAvailableVariant(
   product: { variants?: StorefrontProductVariant[] },

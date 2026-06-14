@@ -30,6 +30,7 @@ Desktop.ini
 .eslintcache
 /.swc/
 /.turbo/
+/docs
 
 # debug
 npm-debug.log*

@@ -3,12 +3,15 @@ import { test } from "node:test";
 
 import {
   buildCheckoutPayload,
+  effectiveProductImages,
   firstAvailableVariant,
   isOptionValueAvailable,
   lowestPricedAvailableVariant,
+  productBentoLayout,
   productDetailToCartItem,
   publicProductToCard,
   resolveVariantFromOptions,
+  sanitizeProductDescription,
   variantOptionGroups,
 } from "../lib/storefront-products.mjs";
 
@@ -40,6 +43,7 @@ test("publicProductToCard normalizes public catalog rows", () => {
       description: "",
       basePrice: 499,
       imageUrl: "https://example.com/tote.png",
+      imageUrls: ["https://example.com/tote.png"],
       available: true,
       variantCount: 2,
       variants: [
@@ -50,10 +54,77 @@ test("publicProductToCard normalizes public catalog rows", () => {
           price: 549,
           available: true,
           imageUrl: "https://example.com/tote-m.png",
+          imageUrls: ["https://example.com/tote-m.png"],
         },
       ],
     },
   );
+});
+
+test("effectiveProductImages prefers selected SKU images and normalizes to five", () => {
+  assert.deepEqual(
+    effectiveProductImages(
+      ["default-1.jpg", "default-2.jpg"],
+      {
+        imageUrls: [
+          "sku-1.jpg",
+          "",
+          "sku-1.jpg",
+          "sku-2.jpg",
+          "sku-3.jpg",
+          "sku-4.jpg",
+          "sku-5.jpg",
+          "sku-6.jpg",
+          null,
+        ],
+      },
+    ),
+    ["sku-1.jpg", "sku-2.jpg", "sku-3.jpg", "sku-4.jpg", "sku-5.jpg"],
+  );
+});
+
+test("effectiveProductImages falls back to normalized product images", () => {
+  assert.deepEqual(
+    effectiveProductImages(
+      ["default-1.jpg", "default-1.jpg", "", "default-2.jpg"],
+      { imageUrls: [] },
+    ),
+    ["default-1.jpg", "default-2.jpg"],
+  );
+});
+
+test("sanitizeProductDescription keeps safe formatting and removes unsafe markup", () => {
+  const description = sanitizeProductDescription(`
+    <p onclick="alert('x')">A <strong>useful</strong> description.</p>
+    <a href="javascript:alert('x')">Unsafe link</a>
+    <a href="https://example.com">Safe link</a>
+    <script>alert('x')</script>
+    <iframe src="https://example.com"></iframe>
+  `);
+
+  assert.match(description, /<p>A <strong>useful<\/strong> description\.<\/p>/);
+  assert.match(description, /href="https:\/\/example\.com"/);
+  assert.doesNotMatch(description, /onclick|javascript:|<script|<iframe/i);
+});
+
+test("sanitizeProductDescription makes card descriptions non-interactive", () => {
+  const description = sanitizeProductDescription(
+    '<p>Read the <a href="https://example.com">details</a>.</p>',
+    { links: false },
+  );
+
+  assert.doesNotMatch(description, /<a\b/i);
+  assert.match(description, /details/);
+});
+
+test("productBentoLayout describes approved layouts up to five images", () => {
+  assert.deepEqual(productBentoLayout(0), []);
+  assert.deepEqual(productBentoLayout(1), [[1]]);
+  assert.deepEqual(productBentoLayout(2), [[1, 1]]);
+  assert.deepEqual(productBentoLayout(3), [[1], [1, 1]]);
+  assert.deepEqual(productBentoLayout(4), [[1, 1], [1, 1]]);
+  assert.deepEqual(productBentoLayout(5), [[3, 2], [1, 1, 1]]);
+  assert.deepEqual(productBentoLayout(8), [[3, 2], [1, 1, 1]]);
 });
 
 test("firstAvailableVariant prefers available variants and skips inactive rows", () => {

@@ -1,13 +1,16 @@
 export {
   buildCheckoutPayload,
   cartItemFromVariant,
+  effectiveProductImages,
   firstAvailableVariant,
   isOptionValueAvailable,
   lowestPricedAvailableVariant,
+  productBentoLayout,
   productDetailToCartItem,
   publicProductToDetail,
   publicProductToCard,
   resolveVariantFromOptions,
+  sanitizeProductDescription,
   variantLabel,
   variantOptionGroups,
 } from "./storefront-products.mjs";
@@ -19,6 +22,7 @@ export type StorefrontProductCard = {
   description: string;
   basePrice: number;
   imageUrl: string;
+  imageUrls: string[];
   available: boolean;
   variantCount: number;
   variants: StorefrontProductVariant[];
@@ -43,6 +47,7 @@ export type StorefrontProductVariant = {
   price: number;
   available: boolean;
   imageUrl: string;
+  imageUrls: string[];
 };
 
 export type StorefrontProductDetail = {
